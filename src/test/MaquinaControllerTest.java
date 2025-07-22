@@ -1,7 +1,7 @@
 package test;
 
-import controllers.MaquinaController;
-import models.Maquina;
+import Controllers.MaquinaController;
+import Models.Maquina;
 import validaciones.ValidacionesMaquina;
 
 import org.junit.jupiter.api.Test;

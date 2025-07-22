@@ -1,15 +1,43 @@
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.Stack;
-
-import controllers.MaquinaController;
-import models.Maquina;
+import java.util.*;
+import Controllers.MaquinaController;
+import Models.Maquina;
 
 public class App {
     public static void main(String[] args) throws Exception {
+//-----------------------------------------------------------------------------
         List<Maquina> maquinas = crearMaquinas();
+        MaquinaController mC = new MaquinaController();
+//-----------------------------------------------------------------------------
+        System.out.println("\n---------------1. Metodo filtrar por subred---------------");        
+        Stack<Maquina> pilaFiltrada = mC.filtrarPorSubred(maquinas, 200);
 
+        for (Maquina maquina1 : pilaFiltrada){
+            System.out.println(maquina1.getNombre() + " / Subred: " + maquina1.getSubred());
+        }
+//-----------------------------------------------------------------------------
+        System.out.println("\n---------------2. Metodo ordeado por subred---------------");        
+        TreeSet<Maquina> ordenadas = mC.ordenarPorSubred(pilaFiltrada);
+        for (Maquina maquina2 : ordenadas){
+            System.out.println(maquina2.getNombre() + " / Subred: " + maquina2.getSubred());
+        }
+//-----------------------------------------------------------------------------
+        System.out.println("\n---------------3. Metodo agrupar por riesgo---------------");        
+        TreeMap<Integer,Queue<Maquina>> agrupadas = mC.agruparPorRiesgo(maquinas);
+        for (Map.Entry<Integer,Queue<Maquina>> entry : agrupadas.entrySet()){
+            System.out.println("Riesgo: " + entry.getKey());
+
+            for (Maquina maquina3 : entry.getValue()){
+                System.out.println(maquina3.getNombre());
+            }
+        }
+//-----------------------------------------------------------------------------
+        System.out.println("\n---------------3. Metodo agrupar por riesgo---------------");    
+        Stack<Maquina> explotados = mC.explotarGrupo(agrupadas);
+
+        for (Maquina maquina : explotados){
+            System.out.println(maquina.getNombre() + " / Riesgo: " + maquina.getRiesgo());
+        }
+//-----------------------------------------------------------------------------
     }
 
     static List<Maquina> crearMaquinas() {
